@@ -1,2 +1,2 @@
-# soccer_players_android
-Android app to consume the backend from Soccer Players (spring_monolithic)
+# Soccer Players - Android APP
+Android app to consume the backend from Soccer Players (https://github.com/dritoferro/spring_monolithic)
