@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Soccer Players</string>
+    <string name="senha">Senha</string>
+    <string name="usuario">Usuário</string>
+    <string name="entrar">Entrar</string>
+    <string name="logo">logo</string>
 </resources>
