@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/fragment_main"
-        android:name="br.com.tagliaferro.soccerplayers.fragment.LoginFragment"
+        android:name="br.com.tagliaferro.soccerplayers.login.LoginFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
