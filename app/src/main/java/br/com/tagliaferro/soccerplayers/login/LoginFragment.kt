@@ -12,10 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.tagliaferro.soccerplayers.R
 import br.com.tagliaferro.soccerplayers.databinding.LoginFragmentBinding
 import br.com.tagliaferro.soccerplayers.entities.LoginDTO
+import br.com.tagliaferro.soccerplayers.exceptions.ErrorDTO
 
 class LoginFragment : Fragment() {
-
-    private val TAG = LoginFragment::class.java.simpleName
 
     private lateinit var binding: LoginFragmentBinding
 
@@ -43,7 +42,10 @@ class LoginFragment : Fragment() {
 
         viewModel.isPressed.observe(viewLifecycleOwner, Observer { isPressed ->
             pressed(isPressed)
-            viewModel.isPressedComplete()
+        })
+
+        viewModel.error.observe(viewLifecycleOwner, Observer { error ->
+            showError(error)
         })
 
         return binding.root
@@ -53,5 +55,12 @@ class LoginFragment : Fragment() {
         if (isPressed) {
             Toast.makeText(context, "Fazendo o login...", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun showError(error: ErrorDTO) {
+        Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+        binding.edtUser.text.clear()
+        binding.edtPassword.text.clear()
+        binding.edtUser.requestFocus()
     }
 }
