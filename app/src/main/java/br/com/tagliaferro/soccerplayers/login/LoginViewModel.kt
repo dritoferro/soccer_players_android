@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.tagliaferro.soccerplayers.entities.LoggedUserDTO
 import br.com.tagliaferro.soccerplayers.entities.LoginDTO
 import br.com.tagliaferro.soccerplayers.exceptions.ErrorDTO
 import br.com.tagliaferro.soccerplayers.integration.LoginService
@@ -33,6 +34,17 @@ class LoginViewModel : ViewModel() {
     val error: LiveData<ErrorDTO>
         get() = _error
 
+    private val _success = MutableLiveData<String>()
+
+    val success: LiveData<String>
+        get() = _success
+
+    init {
+        Log.i(TAG, "LoginViewModel created!")
+
+        _isPressed.value = false
+    }
+
     fun login(credentials: LoginDTO) {
         _isPressed.value = true
         Log.i(TAG, credentials.username.toString())
@@ -50,6 +62,9 @@ class LoginViewModel : ViewModel() {
 
             if (loginResult.isSuccessful && loginResult.body() != null) {
                 //TODO salvar o body no cache
+                withContext(Dispatchers.Main) {
+                    onSuccess(loginResult.body()!!)
+                }
             } else {
                 val error = converter.fromJson<ErrorDTO>(
                     loginResult.errorBody()?.string(),
@@ -62,14 +77,12 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun loginError(errorDTO: ErrorDTO) {
+    private fun loginError(errorDTO: ErrorDTO) {
         _error.value = errorDTO
     }
 
-    init {
-        Log.i(TAG, "LoginViewModel created!")
-
-        _isPressed.value = false
+    private fun onSuccess(user: LoggedUserDTO) {
+        _success.value = user.nome
     }
 
     override fun onCleared() {

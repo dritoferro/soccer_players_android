@@ -44,6 +44,10 @@ class LoginFragment : Fragment() {
             pressed(isPressed)
         })
 
+        viewModel.success.observe(viewLifecycleOwner, Observer { name ->
+            success(name)
+        })
+
         viewModel.error.observe(viewLifecycleOwner, Observer { error ->
             showError(error)
         })
@@ -57,8 +61,17 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun success(nome: String) {
+        Toast.makeText(context, "Bem vindo $nome", Toast.LENGTH_SHORT).show()
+        clearFields()
+    }
+
     private fun showError(error: ErrorDTO) {
         Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+        clearFields()
+    }
+
+    private fun clearFields() {
         binding.edtUser.text.clear()
         binding.edtPassword.text.clear()
         binding.edtUser.requestFocus()
