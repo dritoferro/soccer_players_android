@@ -1,7 +1,7 @@
 package br.com.tagliaferro.soccerplayers.entities
 
 data class LoginDTO(
-    val username: String,
+    var username: String? = null,
 
-    val password: String
+    var password: String? = null
 )
