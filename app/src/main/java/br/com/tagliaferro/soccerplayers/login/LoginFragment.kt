@@ -1,5 +1,6 @@
 package br.com.tagliaferro.soccerplayers.login
 
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,6 +41,9 @@ class LoginFragment : Fragment() {
 
         binding.credentials = LoginDTO()
 
+        viewModel.preferences =
+            context?.getSharedPreferences(viewModel.preferencesKey, MODE_PRIVATE)!!
+
         viewModel.isPressed.observe(viewLifecycleOwner, Observer { isPressed ->
             pressed(isPressed)
         })
@@ -53,6 +57,11 @@ class LoginFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.checkCache()
     }
 
     private fun pressed(isPressed: Boolean) {

@@ -1,5 +1,7 @@
 package br.com.tagliaferro.soccerplayers.login
 
+import android.content.SharedPreferences
+import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,18 +11,23 @@ import br.com.tagliaferro.soccerplayers.entities.LoggedUserDTO
 import br.com.tagliaferro.soccerplayers.entities.LoginDTO
 import br.com.tagliaferro.soccerplayers.exceptions.ErrorDTO
 import br.com.tagliaferro.soccerplayers.integration.LoginService
+import br.com.tagliaferro.soccerplayers.integration.RestClient
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import org.threeten.bp.ZoneId
+import java.time.Instant
+import java.time.LocalDateTime
+import java.util.*
 
 class LoginViewModel : ViewModel() {
 
     private val TAG = LoginViewModel::class.java.simpleName
 
-    private val BASE_URL = "https://spring-monolithic-stg.herokuapp.com/api/v1/"
+    val preferencesKey = "SoccerPlayers"
+
+    lateinit var preferences: SharedPreferences
 
     private val converter = Gson()
 
@@ -40,9 +47,25 @@ class LoginViewModel : ViewModel() {
         get() = _success
 
     init {
-        Log.i(TAG, "LoginViewModel created!")
-
         _isPressed.value = false
+    }
+
+    fun checkCache() {
+        val isLogged = preferences.getString("$preferencesKey-login", null)
+
+        if (!isLogged.isNullOrBlank()) {
+            val user = converter.fromJson<LoggedUserDTO>(isLogged, LoggedUserDTO::class.java)
+
+            val isValid = validateToken(user.tokenExpiration!!)
+
+            if (isValid) {
+                //TODO redirecionar para a próxima tela
+                onSuccess(user)
+            } else {
+                //TODO redirecionar para o login
+                loginError(ErrorDTO(message = "Usuário não logado"))
+            }
+        }
     }
 
     fun login(credentials: LoginDTO) {
@@ -50,10 +73,7 @@ class LoginViewModel : ViewModel() {
         Log.i(TAG, credentials.username.toString())
         Log.i(TAG, credentials.password.toString())
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        val retrofit = RestClient.retrofit()
 
         val service = retrofit.create(LoginService::class.java)
 
@@ -61,7 +81,9 @@ class LoginViewModel : ViewModel() {
             val loginResult = service.login(credentials).execute()
 
             if (loginResult.isSuccessful && loginResult.body() != null) {
-                //TODO salvar o body no cache
+                val serialized = converter.toJson(loginResult.body())
+                preferences.edit().putString("$preferencesKey-login", serialized).apply()
+
                 withContext(Dispatchers.Main) {
                     onSuccess(loginResult.body()!!)
                 }
@@ -77,16 +99,42 @@ class LoginViewModel : ViewModel() {
         }
     }
 
+    private fun validateToken(tokenExpiration: Long): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val now = LocalDateTime.now()
+            val expiration = LocalDateTime.ofInstant(
+                Instant.ofEpochMilli(tokenExpiration),
+                TimeZone.getDefault().toZoneId()
+            )
+
+            if (now.isAfter(expiration)) {
+                preferences.edit().remove("$preferencesKey-login").apply()
+                false
+            } else {
+                true
+            }
+
+        } else {
+            val now = org.threeten.bp.LocalDateTime.now()
+            val expiration = org.threeten.bp.LocalDateTime.ofInstant(
+                org.threeten.bp.Instant.ofEpochMilli(tokenExpiration),
+                ZoneId.systemDefault()
+            )
+
+            if (now.isAfter(expiration)) {
+                preferences.edit().remove("$preferencesKey-login").apply()
+                false
+            } else {
+                true
+            }
+        }
+    }
+
     private fun loginError(errorDTO: ErrorDTO) {
         _error.value = errorDTO
     }
 
     private fun onSuccess(user: LoggedUserDTO) {
         _success.value = user.nome
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Log.i(TAG, "LoginViewModel destroyed!")
     }
 }
