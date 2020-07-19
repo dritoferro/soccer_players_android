@@ -2,7 +2,7 @@ package br.com.tagliaferro.soccerplayers.login
 
 import android.content.SharedPreferences
 import android.os.Build
-import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,8 +10,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.tagliaferro.soccerplayers.entities.LoggedUserDTO
 import br.com.tagliaferro.soccerplayers.entities.LoginDTO
 import br.com.tagliaferro.soccerplayers.exceptions.ErrorDTO
-import br.com.tagliaferro.soccerplayers.integration.LoginService
-import br.com.tagliaferro.soccerplayers.integration.RestClient
+import br.com.tagliaferro.soccerplayers.repositories.LoginRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,9 +20,8 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.util.*
 
-class LoginViewModel : ViewModel() {
-
-    private val TAG = LoginViewModel::class.java.simpleName
+class LoginViewModel @ViewModelInject constructor(private val repository: LoginRepository) :
+    ViewModel() {
 
     val preferencesKey = "SoccerPlayers"
 
@@ -70,30 +68,20 @@ class LoginViewModel : ViewModel() {
 
     fun login(credentials: LoginDTO) {
         _isPressed.value = true
-        Log.i(TAG, credentials.username.toString())
-        Log.i(TAG, credentials.password.toString())
-
-        val retrofit = RestClient.retrofit()
-
-        val service = retrofit.create(LoginService::class.java)
 
         viewModelScope.launch(Dispatchers.IO) {
-            val loginResult = service.login(credentials).execute()
+            val loginResult = repository.executeLogin(credentials)
 
-            if (loginResult.isSuccessful && loginResult.body() != null) {
-                val serialized = converter.toJson(loginResult.body())
+            if (loginResult.user != null) {
+                val serialized = converter.toJson(loginResult.user)
                 preferences.edit().putString("$preferencesKey-login", serialized).apply()
 
                 withContext(Dispatchers.Main) {
-                    onSuccess(loginResult.body()!!)
+                    onSuccess(loginResult.user)
                 }
-            } else {
-                val error = converter.fromJson<ErrorDTO>(
-                    loginResult.errorBody()?.string(),
-                    ErrorDTO::class.java
-                )
+            } else if (loginResult.error != null) {
                 withContext(Dispatchers.Main) {
-                    loginError(error)
+                    loginError(loginResult.error)
                 }
             }
         }

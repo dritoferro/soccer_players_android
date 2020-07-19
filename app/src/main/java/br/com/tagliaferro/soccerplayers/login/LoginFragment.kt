@@ -8,18 +8,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import br.com.tagliaferro.soccerplayers.R
 import br.com.tagliaferro.soccerplayers.databinding.LoginFragmentBinding
 import br.com.tagliaferro.soccerplayers.entities.LoginDTO
 import br.com.tagliaferro.soccerplayers.exceptions.ErrorDTO
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     private lateinit var binding: LoginFragmentBinding
 
-    private lateinit var viewModel: LoginViewModel
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,7 +35,8 @@ class LoginFragment : Fragment() {
             false
         )
 
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+
+//        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
         binding.loginViewModel = viewModel
 
