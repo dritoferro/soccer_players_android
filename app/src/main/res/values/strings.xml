@@ -4,4 +4,9 @@
     <string name="usuario">Usuário</string>
     <string name="entrar">Entrar</string>
     <string name="logo">logo</string>
+    <string name="user_name">Nome</string>
+    <string name="user_email">Email</string>
+    <string name="usercreate_text">Criar Usuário</string>
+    <string name="save">Salvar</string>
+    <string name="cancel">Cancelar</string>
 </resources>

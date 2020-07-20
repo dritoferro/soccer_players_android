@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="br.com.tagliaferro.soccerplayers.user.CreateUserViewModel" />
+
+        <variable
+            name="data"
+            type="br.com.tagliaferro.soccerplayers.entities.CreateUserDTO" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_create_user"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context=".user.CreateUserFragment">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="122dp"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/usercreate_text"
+            android:textColor="@color/colorSecondaryDark"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edtUserPassword"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:ems="10"
+            android:hint="@string/senha"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:text="@={data.senha}"
+            app:layout_constraintEnd_toEndOf="@+id/edtUserEmail"
+            app:layout_constraintStart_toStartOf="@+id/edtUserEmail"
+            app:layout_constraintTop_toBottomOf="@+id/edtUserEmail" />
+
+        <EditText
+            android:id="@+id/edtUserName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:ems="10"
+            android:hint="@string/user_name"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:text="@={data.nome}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+        <EditText
+            android:id="@+id/edtUserApelido"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:ems="10"
+            android:hint="@string/usuario"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:text="@={data.apelido}"
+            app:layout_constraintEnd_toEndOf="@+id/edtUserName"
+            app:layout_constraintStart_toStartOf="@+id/edtUserName"
+            app:layout_constraintTop_toBottomOf="@+id/edtUserName" />
+
+        <EditText
+            android:id="@+id/edtUserEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:ems="10"
+            android:hint="@string/user_email"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            android:text="@={data.email}"
+            app:layout_constraintEnd_toEndOf="@+id/edtUserApelido"
+            app:layout_constraintStart_toStartOf="@+id/edtUserApelido"
+            app:layout_constraintTop_toBottomOf="@+id/edtUserApelido" />
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="76dp"
+            android:layout_marginRight="76dp"
+            android:background="@drawable/round_save_button"
+            android:onClick="@{() -> viewModel.save(data)}"
+            android:text="@string/save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtUserPassword" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="76dp"
+            android:layout_marginLeft="76dp"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/round_cancel_button"
+            android:text="@string/cancel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtUserPassword" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
