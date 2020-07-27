@@ -7,6 +7,9 @@
     <string name="user_name">Nome</string>
     <string name="user_email">Email</string>
     <string name="usercreate_text">Criar Usuário</string>
+    <string name="create_account">Criar Conta</string>
+    <string name="login">Login</string>
     <string name="save">Salvar</string>
     <string name="cancel">Cancelar</string>
+    <string name="welcome">Seja Bem Vindo!</string>
 </resources>

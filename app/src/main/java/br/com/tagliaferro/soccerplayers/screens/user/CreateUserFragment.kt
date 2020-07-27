@@ -1,4 +1,4 @@
-package br.com.tagliaferro.soccerplayers.user
+package br.com.tagliaferro.soccerplayers.screens.user
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import br.com.tagliaferro.soccerplayers.R
 import br.com.tagliaferro.soccerplayers.databinding.FragmentCreateUserBinding
 import br.com.tagliaferro.soccerplayers.entities.CreateUserDTO
@@ -32,10 +33,17 @@ class CreateUserFragment : Fragment() {
             false
         )
 
+        val root = binding.root
+
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         binding.data = CreateUserDTO()
 
-        return binding.root
+        binding.btnCancel.setOnClickListener {
+            root.findNavController()
+                .navigate(CreateUserFragmentDirections.actionNavCreateUserToHomeFragment2())
+        }
+
+        return root
     }
 }

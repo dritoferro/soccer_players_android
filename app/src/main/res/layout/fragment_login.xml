@@ -8,7 +8,7 @@
 
         <variable
             name="loginViewModel"
-            type="br.com.tagliaferro.soccerplayers.login.LoginViewModel" />
+            type="br.com.tagliaferro.soccerplayers.screens.login.LoginViewModel" />
 
         <variable
             name="credentials"
@@ -16,11 +16,11 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragment_login"
+        android:id="@+id/login_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
-        tools:context=".login.LoginFragment">
+        tools:context=".screens.login.LoginFragment">
 
         <EditText
             android:id="@+id/edtUser"

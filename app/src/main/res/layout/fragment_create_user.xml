@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="br.com.tagliaferro.soccerplayers.user.CreateUserViewModel" />
+            type="br.com.tagliaferro.soccerplayers.screens.user.CreateUserViewModel" />
 
         <variable
             name="data"
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
-        tools:context=".user.CreateUserFragment">
+        tools:context=".screens.user.CreateUserFragment">
 
         <TextView
             android:id="@+id/textView6"
@@ -39,6 +39,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            android:drawableStart="@drawable/user_password"
+            android:drawableLeft="@drawable/user_password"
             android:ems="10"
             android:hint="@string/senha"
             android:importantForAutofill="no"
@@ -71,6 +73,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            android:drawableStart="@drawable/user_icon"
+            android:drawableLeft="@drawable/user_icon"
             android:ems="10"
             android:hint="@string/usuario"
             android:importantForAutofill="no"

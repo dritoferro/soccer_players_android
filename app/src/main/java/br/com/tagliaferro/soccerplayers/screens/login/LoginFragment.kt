@@ -1,4 +1,4 @@
-package br.com.tagliaferro.soccerplayers.login
+package br.com.tagliaferro.soccerplayers.screens.login
 
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import br.com.tagliaferro.soccerplayers.R
-import br.com.tagliaferro.soccerplayers.databinding.LoginFragmentBinding
+import br.com.tagliaferro.soccerplayers.databinding.FragmentLoginBinding
 import br.com.tagliaferro.soccerplayers.entities.LoginDTO
 import br.com.tagliaferro.soccerplayers.exceptions.ErrorDTO
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
 
-    private lateinit var binding: LoginFragmentBinding
+    private lateinit var binding: FragmentLoginBinding
 
     private val viewModel: LoginViewModel by viewModels()
 
@@ -30,13 +30,10 @@ class LoginFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.login_fragment,
+            R.layout.fragment_login,
             container,
             false
         )
-
-
-//        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
         binding.loginViewModel = viewModel
 
