@@ -1,4 +1,4 @@
-package br.com.tagliaferro.soccerplayers.user
+package br.com.tagliaferro.soccerplayers.screens.user
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel

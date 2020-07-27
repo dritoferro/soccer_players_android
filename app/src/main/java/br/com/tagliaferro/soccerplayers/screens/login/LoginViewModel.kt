@@ -1,4 +1,4 @@
-package br.com.tagliaferro.soccerplayers.login
+package br.com.tagliaferro.soccerplayers.screens.login
 
 import android.content.SharedPreferences
 import android.os.Build
