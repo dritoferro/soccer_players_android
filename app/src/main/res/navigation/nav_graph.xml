@@ -11,12 +11,10 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_nav_login"
-            app:destination="@id/nav_login"
-            app:enterAnim="@anim/nav_default_enter_anim" />
+            app:destination="@id/nav_login" />
         <action
             android:id="@+id/action_homeFragment_to_nav_create_user"
-            app:destination="@id/nav_create_user"
-            app:enterAnim="@anim/fragment_fade_enter" />
+            app:destination="@id/nav_create_user" />
     </fragment>
     <fragment
         android:id="@+id/nav_login"

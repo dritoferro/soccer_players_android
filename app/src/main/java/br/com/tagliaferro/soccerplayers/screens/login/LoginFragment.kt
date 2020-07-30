@@ -41,6 +41,8 @@ class LoginFragment : Fragment() {
 
         binding.credentials = LoginDTO()
 
+        viewModel.preferencesKey = getString(R.string.preferences_key)
+
         viewModel.preferences =
             context?.getSharedPreferences(viewModel.preferencesKey, MODE_PRIVATE)!!
 
@@ -57,11 +59,6 @@ class LoginFragment : Fragment() {
         })
 
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.checkCache()
     }
 
     private fun pressed(isPressed: Boolean) {
