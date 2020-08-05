@@ -29,5 +29,8 @@
         <action
             android:id="@+id/action_nav_create_user_to_homeFragment2"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_nav_create_user_to_nav_login"
+            app:destination="@id/nav_login" />
     </fragment>
 </navigation>
